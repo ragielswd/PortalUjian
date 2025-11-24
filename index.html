@@ -69,12 +69,17 @@
       font-weight: 600;
     }
 
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
     .admin-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.3);
-      border: 2px solid white;
+      background: #667eea;
+      border: 2px solid #667eea;
       color: white;
       padding: 10px 20px;
       border-radius: 50px;
@@ -82,27 +87,23 @@
       font-size: 14px;
       font-weight: 600;
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      white-space: nowrap;
     }
 
     .admin-btn:hover {
-      background: white;
-      color: #667eea;
+      background: #5568d3;
+      border-color: #5568d3;
       transform: scale(1.05);
     }
 
     .current-time {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.95);
+      background: #f7fafc;
       color: #667eea;
       padding: 12px 20px;
       border-radius: 12px;
       font-size: 14px;
       font-weight: 700;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      border: 2px solid rgba(102, 126, 234, 0.3);
+      border: 2px solid #e2e8f0;
       min-width: 200px;
       text-align: center;
     }
@@ -471,19 +472,20 @@
         grid-template-columns: 1fr;
       }
 
+      .header-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       .admin-btn {
-        top: 10px;
-        right: 10px;
         padding: 8px 16px;
         font-size: 12px;
       }
 
       .current-time {
-        top: 55px;
-        right: 10px;
         padding: 10px 16px;
         font-size: 12px;
-        min-width: 180px;
+        min-width: auto;
       }
 
       .current-time .date {
@@ -500,12 +502,14 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="container"><button class="admin-btn" id="adminBtn">👤 Admin</button>
-   <div class="current-time" id="currentTime">
-    Loading...
-   </div>
+  <div class="container">
    <div id="homeView">
     <div class="header">
+     <div class="header-top"><button class="admin-btn" id="adminBtn">👤 Admin</button>
+      <div class="current-time" id="currentTime">
+       Loading...
+      </div>
+     </div>
      <div class="logo"><img src="https://iili.io/3rSzKQI.jpg" alt="Logo SMP Negeri 36 Samarinda" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
      </div>
      <h1 id="schoolName">SMP NEGERI 36 SAMARINDA</h1>
@@ -1020,5 +1024,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a35eac5138ea03b',t:'MTc2Mzk1NTk2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a35fce777eece5a',t:'MTc2Mzk1NjcwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
