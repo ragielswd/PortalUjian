@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Asesmen - SMP Negeri 36 Samarinda</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+      width: 100%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      min-height: 100%;
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header {
+      text-align: center;
+      background: white;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #667eea;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header h1 {
+      margin: 0 0 8px 0;
+      color: #2d3748;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .header h2 {
+      margin: 0;
+      color: #667eea;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .admin-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid white;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .admin-btn:hover {
+      background: white;
+      color: #667eea;
+      transform: scale(1.05);
+    }
+
+    .current-time {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #667eea;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .current-time .date {
+      font-size: 11px;
+      color: #718096;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .class-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 40px;
+    }
+
+    .class-card {
+      background: white;
+      padding: 40px 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      border: 3px solid transparent;
+    }
+
+    .class-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      border-color: #667eea;
+    }
+
+    .class-card h3 {
+      margin: 0 0 12px 0;
+      color: #667eea;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .class-card p {
+      margin: 0;
+      color: #718096;
+      font-size: 16px;
+    }
+
+    .schedule-view {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .schedule-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #e2e8f0;
+    }
+
+    .schedule-header h2 {
+      margin: 0;
+      color: #2d3748;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .back-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #5568d3;
+      transform: scale(1.05);
+    }
+
+    .current-day {
+      background: #f7fafc;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border-left: 4px solid #667eea;
+    }
+
+    .current-day h3 {
+      margin: 0 0 8px 0;
+      color: #667eea;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .current-day p {
+      margin: 0;
+      color: #718096;
+      font-size: 14px;
+    }
+
+    .subject-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .subject-card {
+      background: #f7fafc;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #48bb78;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .subject-card:hover {
+      transform: translateX(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subject-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-left-color: #cbd5e0;
+    }
+
+    .subject-card.disabled:hover {
+      transform: none;
+    }
+
+    .subject-card h4 {
+      margin: 0 0 8px 0;
+      color: #2d3748;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .subject-card p {
+      margin: 0;
+      color: #718096;
+      font-size: 14px;
+    }
+
+    .time-badge {
+      display: inline-block;
+      background: #48bb78;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .time-badge.closed {
+      background: #f56565;
+    }
+
+    .simulation-notice {
+      background: #fef5e7;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #f59e0b;
+      margin-bottom: 24px;
+    }
+
+    .simulation-notice h3 {
+      margin: 0 0 8px 0;
+      color: #d97706;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .simulation-notice p {
+      margin: 0;
+      color: #92400e;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .admin-login {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .login-box h3 {
+      margin: 0 0 24px 0;
+      color: #2d3748;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease;
+    }
+
+    .login-box input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .login-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .login-buttons button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn {
+      background: #667eea;
+      color: white;
+    }
+
+    .submit-btn:hover {
+      background: #5568d3;
+    }
+
+    .cancel-btn {
+      background: #e2e8f0;
+      color: #2d3748;
+    }
+
+    .cancel-btn:hover {
+      background: #cbd5e0;
+    }
+
+    .error-message {
+      display: none;
+      background: #fee;
+      color: #c53030;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .admin-view {
+      display: none;
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #e2e8f0;
+    }
+
+    .admin-header h2 {
+      margin: 0;
+      color: #2d3748;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .day-section {
+      margin-bottom: 32px;
+    }
+
+    .day-section h3 {
+      background: #667eea;
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 0 0 16px 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .class-group {
+      margin-bottom: 24px;
+    }
+
+    .class-group h4 {
+      color: #4a5568;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 12px 0;
+      padding-left: 8px;
+      border-left: 4px solid #48bb78;
+    }
+
+    .footer {
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+      padding: 24px 20px;
+      margin-top: 40px;
+    }
+
+    .footer p {
+      margin: 0;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 22px;
+      }
+
+      .header h2 {
+        font-size: 16px;
+      }
+
+      .class-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-btn {
+        top: 10px;
+        right: 10px;
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+
+      .current-time {
+        top: 55px;
+        right: 10px;
+        padding: 10px 16px;
+        font-size: 12px;
+        min-width: 180px;
+      }
+
+      .current-time .date {
+        font-size: 10px;
+      }
+
+      .footer p {
+        font-size: 12px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container"><button class="admin-btn" id="adminBtn">👤 Admin</button>
+   <div class="current-time" id="currentTime">
+    Loading...
+   </div>
+   <div id="homeView">
+    <div class="header">
+     <div class="logo"><img src="https://iili.io/3rSzKQI.jpg" alt="Logo SMP Negeri 36 Samarinda" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+     </div>
+     <h1 id="schoolName">SMP NEGERI 36 SAMARINDA</h1>
+     <h2 id="examTitle">Asesmen Sumatif Tengah Semester</h2>
+    </div>
+    <div class="class-buttons">
+     <div class="class-card" onclick="showSchedule(7)">
+      <h3>VII</h3>
+      <p id="class7Button">KELAS VII</p>
+     </div>
+     <div class="class-card" onclick="showSchedule(8)">
+      <h3>VIII</h3>
+      <p id="class8Button">KELAS VIII</p>
+     </div>
+     <div class="class-card" onclick="showSchedule(9)">
+      <h3>IX</h3>
+      <p id="class9Button">KELAS IX</p>
+     </div>
+    </div>
+   </div>
+   <div class="schedule-view" id="scheduleView">
+    <div class="schedule-header">
+     <h2 id="scheduleTitle">Jadwal Ujian</h2><button class="back-btn" onclick="backToHome()">← Kembali</button>
+    </div>
+    <div id="scheduleContent"></div>
+   </div>
+   <div class="admin-view" id="adminView">
+    <div class="admin-header">
+     <h2>Panel Admin - Semua Jadwal</h2><button class="back-btn" onclick="backToHome()">← Kembali</button>
+    </div>
+    <div id="adminContent"></div>
+   </div>
+   <footer class="footer">
+    <p>© 2025 TIM ASESMEN SMP NEGERI 36 SAMARINDA</p>
+   </footer>
+  </div>
+  <div class="admin-login" id="adminLogin">
+   <div class="login-box">
+    <h3>Login Admin</h3>
+    <div class="error-message" id="errorMessage">
+     Password salah!
+    </div>
+    <form id="loginForm" onsubmit="handleLogin(event)"><label for="password" style="display: block; margin-bottom: 8px; color: #4a5568; font-weight: 600;">Password:</label> <input type="password" id="password" placeholder="Masukkan password" required>
+     <div class="login-buttons"><button type="button" class="cancel-btn" onclick="closeLogin()">Batal</button> <button type="submit" class="submit-btn">Masuk</button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <script>
+    const EXAM_START_DATE = new Date('2025-12-01T00:00:00+08:00');
+    const DAILY_CUTOFF_TIME = '15:15';
+    const SIMULATION_LINK = 'https://forms.gle/FMvbjWRD35ZAC61J8';
+
+    const scheduleData = {
+      'Senin': ['Pendidikan Agama dan Budi Pekerti', 'Pendidikan Agama Kristen', 'Bahasa Indonesia'],
+      'Selasa': ['PKn', 'IPS'],
+      'Rabu': ['IPA', 'Seni Budaya'],
+      'Kamis': ['Bahasa Inggris', 'PJOK'],
+      'Jumat': ['Matematika', 'Informatika']
+    };
+
+    const class7Links = {
+      'Pendidikan Agama dan Budi Pekerti': 'https://forms.gle/8v8iJ1wgpe6uDA84A',
+      'Pendidikan Agama Kristen': 'https://forms.gle/u6GXDx8sYrjXNxWz9',
+      'Bahasa Indonesia': 'https://forms.gle/3ptzJHe1b2zvJniu8',
+      'PKn': 'https://forms.gle/zeJYM5Yq7s2NHBxG8',
+      'IPS': 'https://forms.gle/8jxJCmEyiqJVY2bE9',
+      'IPA': 'https://forms.gle/2EYXTpdxhJ9uF9Lw9',
+      'Seni Budaya': 'https://forms.gle/v6NrrU52KLzL7nn8A',
+      'Bahasa Inggris (A, B, C)': 'https://forms.gle/D6DFHV6CVHfDetNZ8',
+      'Bahasa Inggris (D, E)': 'https://forms.gle/xGL8KuAnLhcF53sBA',
+      'PJOK': 'https://forms.gle/Qzs8F2PfsZpEkTyx6',
+      'Matematika': 'https://forms.gle/BWkXJ83ymBiyuGAo8',
+      'Informatika': 'https://forms.gle/QxzXj9KhrQ2XrKwA7'
+    };
+
+    const class8Links = {
+      'Pendidikan Agama dan Budi Pekerti': 'https://forms.gle/t2PfALCL89PNefYi7',
+      'Pendidikan Agama Kristen': 'https://forms.gle/kmiEwKwQQ3oQ4Sz17',
+      'Bahasa Indonesia': 'https://forms.gle/DHhWfJUYMfiv2cdu8',
+      'Bahasa Indonesia (B, C, D, E)': 'https://forms.gle/f1vWrsywPz7BjsPy6',
+      'PKn': 'https://forms.gle/GKbvwb2u6in782MQ6',
+      'IPS': 'https://forms.gle/wSE1ZmmSzYkN1u9H9',
+      'IPA': 'https://forms.gle/fsJPqtaZ9pCs3maY6',
+      'Seni Budaya': 'https://forms.gle/Lt8hyBWw3LVAALuK7',
+      'Bahasa Inggris': 'https://forms.gle/auEjRM2n1SU3R4af9',
+      'PJOK': 'https://forms.gle/SKFiV9oGx39kDEDx5',
+      'Matematika': 'https://forms.gle/oChKmW8fiLg2FwnN9',
+      'Informatika': 'https://forms.gle/iXGza5YhddyCDieu8'
+    };
+
+    const class9Links = {
+      'Pendidikan Agama dan Budi Pekerti': 'https://forms.gle/GUHvuG6bdJ2Gc3x1A',
+      'Pendidikan Agama Kristen': 'https://forms.gle/wVY2iRVkNV7KNLhk9',
+      'Bahasa Indonesia': 'https://forms.gle/y92tgtXbDsk6FMmM9',
+      'PKn': 'https://forms.gle/NUmVMaPiiatAGxiy5',
+      'IPS': 'https://forms.gle/oryZyCBbDuUr22Yj7',
+      'IPA': 'https://forms.gle/ubaqNMdCccgFKArR8',
+      'Seni Budaya': 'https://forms.gle/S8vuR5pXxpENSKxf6',
+      'Bahasa Inggris': 'https://forms.gle/RUCPZUCsMdNf28Ef8',
+      'PJOK': 'https://forms.gle/ziK5Hu9VNRa1moEk6',
+      'Matematika': 'https://forms.gle/JmuuaHmrVVoG1TXu7',
+      'Informatika': 'https://forms.gle/AEcGARnQpP8w4jBA7'
+    };
+
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    function updateCurrentTime() {
+      const now = new Date();
+      const witaOffset = 8 * 60;
+      const localOffset = now.getTimezoneOffset();
+      const witaTime = new Date(now.getTime() + (witaOffset + localOffset) * 60000);
+      
+      const hours = witaTime.getHours().toString().padStart(2, '0');
+      const minutes = witaTime.getMinutes().toString().padStart(2, '0');
+      const seconds = witaTime.getSeconds().toString().padStart(2, '0');
+      
+      const day = witaTime.getDate();
+      const month = monthNames[witaTime.getMonth()];
+      const year = witaTime.getFullYear();
+      const dayName = dayNames[witaTime.getDay()];
+      
+      const timeElement = document.getElementById('currentTime');
+      timeElement.innerHTML = `
+        <div>${hours}:${minutes}:${seconds} WITA</div>
+        <div class="date">${dayName}, ${day} ${month} ${year}</div>
+      `;
+    }
+
+    setInterval(updateCurrentTime, 1000);
+    updateCurrentTime();
+
+    function getCurrentDay() {
+      const now = new Date();
+      const witaOffset = 8 * 60;
+      const localOffset = now.getTimezoneOffset();
+      const witaTime = new Date(now.getTime() + (witaOffset + localOffset) * 60000);
+      return dayNames[witaTime.getDay()];
+    }
+
+    function isExamPeriodStarted() {
+      const now = new Date();
+      return now >= EXAM_START_DATE;
+    }
+
+    function isWithinExamTime() {
+      const now = new Date();
+      const witaOffset = 8 * 60;
+      const localOffset = now.getTimezoneOffset();
+      const witaTime = new Date(now.getTime() + (witaOffset + localOffset) * 60000);
+      const currentTime = witaTime.getHours().toString().padStart(2, '0') + ':' + witaTime.getMinutes().toString().padStart(2, '0');
+      return currentTime <= DAILY_CUTOFF_TIME;
+    }
+
+    function showSchedule(classNumber) {
+      const currentDay = getCurrentDay();
+      const examStarted = isExamPeriodStarted();
+      const withinTime = isWithinExamTime();
+
+      document.getElementById('homeView').style.display = 'none';
+      document.getElementById('scheduleView').style.display = 'block';
+      document.getElementById('scheduleTitle').textContent = `Jadwal Ujian Kelas ${classNumber === 7 ? 'VII' : classNumber === 8 ? 'VIII' : 'IX'}`;
+
+      const content = document.getElementById('scheduleContent');
+      content.innerHTML = '';
+
+      if (!examStarted) {
+        content.innerHTML = `
+          <div class="simulation-notice">
+            <h3>ℹ️ Periode Simulasi</h3>
+            <p>Ujian akan dimulai pada <strong>1 Desember 2025 pukul 00:00 WITA</strong>.</p>
+          </div>
+          <div class="subject-card" onclick="openLink('${SIMULATION_LINK}')">
+            <h4>📝 Soal Simulasi</h4>
+            <p>Klik untuk mengerjakan soal simulasi</p>
+            <span class="time-badge">Tersedia</span>
+          </div>
+        `;
+        return;
+      }
+
+      const subjects = scheduleData[currentDay];
+      
+      if (!subjects || subjects.length === 0) {
+        content.innerHTML = `
+          <div class="current-day">
+            <h3>📅 ${currentDay}</h3>
+            <p>Tidak ada ujian hari ini. Selamat beristirahat! 😊</p>
+          </div>
+        `;
+        return;
+      }
+
+      const daySection = document.createElement('div');
+      daySection.className = 'current-day';
+      daySection.innerHTML = `
+        <h3>📅 ${currentDay}</h3>
+        <p>Ujian tersedia hingga pukul ${DAILY_CUTOFF_TIME} WITA</p>
+      `;
+      content.appendChild(daySection);
+
+      if (!withinTime) {
+        const notice = document.createElement('div');
+        notice.className = 'simulation-notice';
+        notice.innerHTML = `
+          <h3>⏰ Waktu Ujian Telah Berakhir</h3>
+          <p>Ujian hari ini telah ditutup pukul ${DAILY_CUTOFF_TIME} WITA. Silakan kembali besok untuk ujian berikutnya.</p>
+        `;
+        content.appendChild(notice);
+      }
+
+      const subjectList = document.createElement('div');
+      subjectList.className = 'subject-list';
+
+      subjects.forEach(subject => {
+        let link = '';
+        
+        if (classNumber === 7) {
+          if (subject === 'Bahasa Inggris') {
+            const card1 = createSubjectCard('Bahasa Inggris (Kelas A, B, C)', class7Links['Bahasa Inggris (A, B, C)'], withinTime);
+            const card2 = createSubjectCard('Bahasa Inggris (Kelas D, E)', class7Links['Bahasa Inggris (D, E)'], withinTime);
+            subjectList.appendChild(card1);
+            subjectList.appendChild(card2);
+            return;
+          }
+          link = class7Links[subject];
+        } else if (classNumber === 8) {
+          if (subject === 'Bahasa Indonesia') {
+            const card1 = createSubjectCard('Bahasa Indonesia (Kelas A)', class8Links['Bahasa Indonesia'], withinTime);
+            const card2 = createSubjectCard('Bahasa Indonesia (Kelas B, C, D, E)', class8Links['Bahasa Indonesia (B, C, D, E)'], withinTime);
+            subjectList.appendChild(card1);
+            subjectList.appendChild(card2);
+            return;
+          }
+          link = class8Links[subject];
+        } else if (classNumber === 9) {
+          link = class9Links[subject];
+        }
+
+        if (link) {
+          const card = createSubjectCard(subject, link, withinTime);
+          subjectList.appendChild(card);
+        }
+      });
+
+      content.appendChild(subjectList);
+    }
+
+    function createSubjectCard(subject, link, isEnabled) {
+      const card = document.createElement('div');
+      card.className = `subject-card ${!isEnabled ? 'disabled' : ''}`;
+      
+      if (isEnabled) {
+        card.onclick = () => openLink(link);
+      }
+
+      card.innerHTML = `
+        <h4>📚 ${subject}</h4>
+        <p>${isEnabled ? 'Klik untuk mengerjakan ujian' : 'Waktu ujian telah berakhir'}</p>
+        <span class="time-badge ${!isEnabled ? 'closed' : ''}">${isEnabled ? 'Tersedia' : 'Ditutup'}</span>
+      `;
+
+      return card;
+    }
+
+    function openLink(url) {
+      window.location.href = url;
+    }
+
+    function backToHome() {
+      document.getElementById('homeView').style.display = 'block';
+      document.getElementById('scheduleView').style.display = 'none';
+      document.getElementById('adminView').style.display = 'none';
+    }
+
+    document.getElementById('adminBtn').addEventListener('click', function() {
+      document.getElementById('adminLogin').style.display = 'flex';
+      document.getElementById('password').focus();
+    });
+
+    function closeLogin() {
+      document.getElementById('adminLogin').style.display = 'none';
+      document.getElementById('password').value = '';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const password = document.getElementById('password').value;
+      
+      if (password === '000000') {
+        closeLogin();
+        showAdminPanel();
+      } else {
+        document.getElementById('errorMessage').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('errorMessage').style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    function showAdminPanel() {
+      document.getElementById('homeView').style.display = 'none';
+      document.getElementById('adminView').style.display = 'block';
+      
+      const content = document.getElementById('adminContent');
+      content.innerHTML = '';
+
+      const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+      
+      days.forEach(day => {
+        const subjects = scheduleData[day];
+        
+        if (subjects && subjects.length > 0) {
+          const daySection = document.createElement('div');
+          daySection.className = 'day-section';
+          
+          const dayHeader = document.createElement('h3');
+          dayHeader.textContent = day;
+          daySection.appendChild(dayHeader);
+
+          const class7Group = document.createElement('div');
+          class7Group.className = 'class-group';
+          class7Group.innerHTML = '<h4>Kelas VII</h4>';
+          const class7List = document.createElement('div');
+          class7List.className = 'subject-list';
+
+          const class8Group = document.createElement('div');
+          class8Group.className = 'class-group';
+          class8Group.innerHTML = '<h4>Kelas VIII</h4>';
+          const class8List = document.createElement('div');
+          class8List.className = 'subject-list';
+
+          const class9Group = document.createElement('div');
+          class9Group.className = 'class-group';
+          class9Group.innerHTML = '<h4>Kelas IX</h4>';
+          const class9List = document.createElement('div');
+          class9List.className = 'subject-list';
+
+          subjects.forEach(subject => {
+            if (subject === 'Bahasa Inggris') {
+              const card7A = createSubjectCard('Bahasa Inggris (Kelas A, B, C)', class7Links['Bahasa Inggris (A, B, C)'], true);
+              const card7B = createSubjectCard('Bahasa Inggris (Kelas D, E)', class7Links['Bahasa Inggris (D, E)'], true);
+              class7List.appendChild(card7A);
+              class7List.appendChild(card7B);
+            } else {
+              const card7 = createSubjectCard(subject, class7Links[subject], true);
+              class7List.appendChild(card7);
+            }
+
+            if (subject === 'Bahasa Indonesia') {
+              const card8A = createSubjectCard('Bahasa Indonesia (Kelas A)', class8Links['Bahasa Indonesia'], true);
+              const card8B = createSubjectCard('Bahasa Indonesia (Kelas B, C, D, E)', class8Links['Bahasa Indonesia (B, C, D, E)'], true);
+              class8List.appendChild(card8A);
+              class8List.appendChild(card8B);
+            } else {
+              const card8 = createSubjectCard(subject, class8Links[subject], true);
+              class8List.appendChild(card8);
+            }
+
+            const card9 = createSubjectCard(subject, class9Links[subject], true);
+            class9List.appendChild(card9);
+          });
+
+          class7Group.appendChild(class7List);
+          class8Group.appendChild(class8List);
+          class9Group.appendChild(class9List);
+          
+          daySection.appendChild(class7Group);
+          daySection.appendChild(class8Group);
+          daySection.appendChild(class9Group);
+          
+          content.appendChild(daySection);
+        }
+      });
+    }
+
+    const defaultConfig = {
+      school_name: 'SMP NEGERI 36 SAMARINDA',
+      exam_title: 'Asesmen Sumatif Tengah Semester',
+      class_7_button: 'KELAS VII',
+      class_8_button: 'KELAS VIII',
+      class_9_button: 'KELAS IX',
+      background_color: '#667eea',
+      surface_color: '#ffffff',
+      text_color: '#2d3748',
+      primary_action_color: '#667eea',
+      secondary_action_color: '#48bb78',
+      font_family: 'Segoe UI',
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      const schoolName = config.school_name || defaultConfig.school_name;
+      const examTitle = config.exam_title || defaultConfig.exam_title;
+      const class7Button = config.class_7_button || defaultConfig.class_7_button;
+      const class8Button = config.class_8_button || defaultConfig.class_8_button;
+      const class9Button = config.class_9_button || defaultConfig.class_9_button;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+
+      document.getElementById('schoolName').textContent = schoolName;
+      document.getElementById('examTitle').textContent = examTitle;
+      document.getElementById('class7Button').textContent = class7Button;
+      document.getElementById('class8Button').textContent = class8Button;
+      document.getElementById('class9Button').textContent = class9Button;
+
+      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}dd 100%)`;
+      
+      const surfaces = document.querySelectorAll('.header, .schedule-view, .admin-view, .class-card, .login-box');
+      surfaces.forEach(el => el.style.backgroundColor = surfaceColor);
+
+      const textElements = document.querySelectorAll('.header h1, .schedule-header h2, .admin-header h2, .subject-card h4, .day-section h4, .login-box h3');
+      textElements.forEach(el => el.style.color = textColor);
+
+      const primaryButtons = document.querySelectorAll('.admin-btn, .back-btn, .submit-btn, .day-section h3');
+      primaryButtons.forEach(el => el.style.backgroundColor = primaryActionColor);
+
+      const secondaryElements = document.querySelectorAll('.time-badge, .subject-card');
+      secondaryElements.forEach(el => {
+        if (el.classList.contains('time-badge') && !el.classList.contains('closed')) {
+          el.style.backgroundColor = secondaryActionColor;
+        }
+        if (el.classList.contains('subject-card')) {
+          el.style.borderLeftColor = secondaryActionColor;
+        }
+      });
+
+      const baseFontStack = 'Tahoma, Geneva, Verdana, sans-serif';
+      document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+
+      document.querySelector('.header h1').style.fontSize = `${fontSize * 1.75}px`;
+      document.querySelector('.header h2').style.fontSize = `${fontSize * 1.25}px`;
+      document.querySelectorAll('.class-card h3').forEach(el => el.style.fontSize = `${fontSize * 2}px`);
+      document.querySelectorAll('.class-card p').forEach(el => el.style.fontSize = `${fontSize}px`);
+      document.querySelectorAll('.schedule-header h2, .admin-header h2').forEach(el => el.style.fontSize = `${fontSize * 1.5}px`);
+      document.querySelectorAll('.subject-card h4').forEach(el => el.style.fontSize = `${fontSize * 1.125}px`);
+      document.querySelectorAll('.subject-card p, .current-day p').forEach(el => el.style.fontSize = `${fontSize * 0.875}px`);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['school_name', config.school_name || defaultConfig.school_name],
+          ['exam_title', config.exam_title || defaultConfig.exam_title],
+          ['class_7_button', config.class_7_button || defaultConfig.class_7_button],
+          ['class_8_button', config.class_8_button || defaultConfig.class_8_button],
+          ['class_9_button', config.class_9_button || defaultConfig.class_9_button]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a35eac5138ea03b',t:'MTc2Mzk1NTk2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
